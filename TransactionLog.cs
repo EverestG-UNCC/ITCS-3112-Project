@@ -12,22 +12,37 @@ public class TransactionLog
     }
     
     // Method for creating a new transaction and adding it to the transaction list
-    public void createTransaction(string category, DateTime date, float amount, string vendor, int id)
+    public void createTransaction(string category, DateTime date, float amount, string vendor)
     {
-        Transaction newTransaction = new Transaction(category, date, amount, vendor, id);
+        Transaction newTransaction = new Transaction(category, date, amount, vendor);
         transactionList.Add(newTransaction);
     }
 
     // Getter method to retrieve a transaction by its ID
     public Transaction getTransactionById(int id)
     {
-        return transactionList.get(id);
+        foreach (Transaction transaction in transactionList)
+        {
+            if (transaction.Id == id)
+            {
+                return transaction;
+            }
+        }
+        return null;
     }
 
     // Method to remove a transaction from the list by its ID
     public bool removeTransactionById(int id)
     {
-        return transactionList.Remove(id);
+        foreach (Transaction transaction in transactionList)
+        {
+            if (transaction.Id == id)
+            {
+                transactionList.Remove(transaction);
+                return true;
+            }
+        }
+        return false;
     }
 
 
