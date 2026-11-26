@@ -10,11 +10,14 @@ public class UserInterface
             "type '1' to print the transaction log.",
             "type '2' to get transaction statistics."
         };
+
         while (true)
         {
+            Console.Clear();
+            
             DisplayOptions(options);
 
-            String input = Console.ReadLine();
+            String? input = Console.ReadLine();
             if (input == "0")
             {
                 Console.WriteLine("Exiting the application.");
@@ -33,6 +36,8 @@ public class UserInterface
             else
             {
                 Console.WriteLine("Invalid option. Please try again.");
+                Console.WriteLine("Press any key to continue...");
+                Console.ReadKey(intercept: true);
             }
         }
 

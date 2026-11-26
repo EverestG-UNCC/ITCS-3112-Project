@@ -19,7 +19,7 @@ public class TransactionLog
     }
 
     // Getter method to retrieve a transaction by its ID
-    public Transaction getTransactionById(int id)
+    public Transaction? getTransactionById(int id)
     {
         foreach (Transaction transaction in transactionList)
         {
