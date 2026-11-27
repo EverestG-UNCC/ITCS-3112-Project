@@ -1,3 +1,5 @@
+// This class provides methods to create statistics about the transactions.
+
 public class TransactionLogAnalyzer
 {
 

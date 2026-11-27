@@ -1,3 +1,7 @@
+// This class represents a financial transaction in the application.
+// Each transaction contains information about itself, such as the category, date, amount, and vendor.
+// The Transaction class also has a unique ID for each transaction, which is automatically generated upon creation.
+
 public class Transaction
 {
     // Instance variables of the Transaction class
