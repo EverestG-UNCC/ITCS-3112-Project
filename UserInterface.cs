@@ -42,6 +42,23 @@ public class UserInterface
         "type '3' to remove a transaction by ID."
     };
 
+    // Define the transaction statistics options available to the user
+    string[] statisticsOptions = new string[]
+    {
+        "type '0' to go back to the main menu.",
+        "type '1' to get the total amount spent in a specific category for a given month of a given year.",
+        "type '2' to get the total amount spent in a specific category for a given year.",
+        "type '3' to get the total amount spent in a specific category for each month of a given year.",
+        "type '4' to get a list of potential detected subscriptions from vendors."
+    };
+
+    // Define months of the year in array
+    string[] months = new string[]
+    {
+        "January", "February", "March", "April", "May", "June",
+        "July", "August", "September", "October", "November", "December"
+    };
+
     // Method to start the user interface and handle user input
     public void Start()
     {
@@ -77,6 +94,15 @@ public class UserInterface
         }
     }
 
+    // Helper method to print a list of strings
+    private void PrintList(List<string> list)
+    {
+        foreach (string item in list)
+        {
+            Console.WriteLine($"- {item}");
+        }
+    }
+
     // Abstraction method to ask the user to press any key to continue
     private void PressAnyKeyToContinue()
     {
@@ -100,6 +126,13 @@ public class UserInterface
         int year = int.Parse(ReadUserInput() ?? "0"); // Read the year input
 
         return (month, year); // Return the month and year as a tuple
+    }
+
+    // Helper method to get a year from the user and return it as an integer
+    private int GetYearFromUser()
+    {
+        Console.WriteLine("Please enter the year (e.g., 2023):");
+        return int.Parse(ReadUserInput() ?? "0"); // Read the year input
     }
 
     // Helper method to get a category from the user and return it as a string
@@ -186,7 +219,12 @@ public class UserInterface
         else if (input == "3") // Offer transaction statistics options to the user
         {
             Console.Clear(); // Clear the console for a fresh display
-            Console.WriteLine("Getting transaction statistics...");
+
+            DisplayOptions(statisticsOptions); // Display the transaction statistics options to the user
+
+            String? statisticsInput = ReadUserInput(); // Read the user input for transaction statistics options
+
+            MakeStatisticsDecision(statisticsInput); // Make a decision based on the transaction statistics option input
         }
         else if (input == "4") // Offer to add sample data to the transaction log
         {
@@ -286,6 +324,54 @@ public class UserInterface
             {
                 Console.WriteLine("Transaction not found.");
             }
+        }
+        PressAnyKeyToContinue(); // Let the user read the message before returning to the main menu
+    }
+
+    // Helper method to read the user input and make decisions for transaction statistics options
+    private void MakeStatisticsDecision(string? input)
+    {
+        if (input == "0")
+        {
+            return; // Return to the main menu
+        }
+        else if (input == "1") // Get the total amount spent in a specific category for a given month of a given year
+        {
+            string category = GetCategoryFromUser();
+            (int month, int year) = GetMonthAndYearFromUser();
+
+            float total = controller.CGetMonthCategoryTotal(controller.CGetTransactionList(), month, year, category); // Call the controller method to get the total amount spent in a specific category for a given month of a given year
+            
+            Console.WriteLine($"Total amount spent in {category} for {month}/{year}: ${total}");
+        }
+        else if (input == "2") // Get the total amount spent in a specific category for a given year
+        {
+            string category = GetCategoryFromUser();
+            int year = GetYearFromUser();
+
+            float total = controller.CGetYearCategoryTotal(controller.CGetTransactionList(), year, category); // Call the controller method to get the total amount spent in a specific category for a given year
+            
+            Console.WriteLine($"Total amount spent in {category} for {year}: ${total}");
+        }
+        else if (input == "3") // Get the total amount spent in a specific category for each month of a given year
+        {
+            string category = GetCategoryFromUser();
+            int year = GetYearFromUser();
+
+            List<float> monthlyTotals = controller.CGetMonthlyCategoryTotals(controller.CGetTransactionList(), year, category); // Call the controller method to get the total amount spent in a specific category for each month of a given year
+
+            Console.WriteLine($"Total amount spent in {category} for each month of {year}:");
+            for (int i = 0; i < 12; i++)
+            {
+                Console.WriteLine($"Month {months[i]}: ${monthlyTotals[i]}");
+            }
+        }
+        else if (input == "4") // Get a list of potential detected subscriptions from vendors
+        {
+            List<string> subscriptions = controller.CGetPotentialSubscriptions(); // Call the controller method to get a list of potential detected subscriptions from vendors
+
+            Console.WriteLine("Potential detected subscriptions from vendors:");
+            PrintList(subscriptions); // Print the list of potential detected subscriptions from vendors
         }
         PressAnyKeyToContinue(); // Let the user read the message before returning to the main menu
     }

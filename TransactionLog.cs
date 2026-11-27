@@ -36,7 +36,7 @@ public class TransactionLog
     }
 
     // Method to remove a transaction from the list by its ID
-    public bool removeTransactionById(int id)
+    public bool RemoveTransactionById(int id)
     {
         foreach (Transaction transaction in transactionList)
         {
@@ -50,20 +50,20 @@ public class TransactionLog
     }
 
     // Method that sorts a list of transactions by date ascending order
-    public List<Transaction> sortTransactionsByDate(List<Transaction> transactions)
+    public List<Transaction> SortTransactionsByDate(List<Transaction> transactions)
     {
         transactions.Sort((t1, t2) => t1.Date.CompareTo(t2.Date));
         return transactions;
     }
 
     // Getter method to retrieve the list of transactions
-    public List<Transaction> getTransactionList()
+    public List<Transaction> GetTransactionList()
     {
-        return sortTransactionsByDate(transactionList);
+        return SortTransactionsByDate(transactionList);
     }
 
     // Method to sort transactions by a given month and year into a list
-    public List<Transaction> getTransactionsByMonthAndYear(int month, int year)
+    public List<Transaction> GetTransactionsByMonthAndYear(int month, int year)
     {
         List<Transaction> filteredTransactions = new List<Transaction>();
         foreach (Transaction transaction in transactionList)
@@ -73,7 +73,7 @@ public class TransactionLog
                 filteredTransactions.Add(transaction);
             }
         }
-        return sortTransactionsByDate(filteredTransactions);
+        return SortTransactionsByDate(filteredTransactions);
     }
 
     // Method to sort transactions by a given category into a list
@@ -87,11 +87,11 @@ public class TransactionLog
                 filteredTransactions.Add(transaction);
             }
         }
-        return sortTransactionsByDate(filteredTransactions);
+        return SortTransactionsByDate(filteredTransactions);
     }
 
     // Method to sort transactions by a given category and month/year into a list
-    public List<Transaction> getTransactionsByCategoryAndMonthAndYear(string category, int month, int year)
+    public List<Transaction> GetTransactionsByCategoryAndMonthAndYear(string category, int month, int year)
     {
         List<Transaction> filteredTransactions = new List<Transaction>();
         foreach (Transaction transaction in transactionList)
@@ -102,6 +102,6 @@ public class TransactionLog
                 filteredTransactions.Add(transaction);
             }
         }
-        return sortTransactionsByDate(filteredTransactions);
+        return SortTransactionsByDate(filteredTransactions);
     }
 }
